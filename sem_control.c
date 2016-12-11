@@ -55,7 +55,7 @@ void remove_semaphore() {
 
 void create_shmem() {
   int key = ftok("Makefile",60);
-  int shmemid = shmget(key, 1024, IPC_CREAT | IPC_EXCL);
+  int shmemid = shmget(key, 1024, IPC_CREAT | IPC_EXCL | 0644);
   
   printf("key: %d\n", key);
   printf("shmemid : %d\n", shmemid);
@@ -79,7 +79,7 @@ void remove_shmem() {
 }
 
 void create_file(){
-  int file = open("file.txt", O_CREAT | O_EXCL | O_TRUNC, 0644);
+  int file = open("file.txt", O_CREAT | O_TRUNC, 0644);
   
   if (file >= 0)
     printf("file successfully created\n");
