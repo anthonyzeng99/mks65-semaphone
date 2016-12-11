@@ -30,7 +30,7 @@ void create_semaphore() {
       su.val = 1;
 
       sc = semctl(semid, 0, SETVAL, su);
-      printf("value set: %d\n", sc);
+      //printf("value set: %d\n", sc);
     } else {
       printf("semaphore already created: %s\n", strerror(errno));
     }
@@ -93,10 +93,10 @@ void view_file(){
   struct stat info;
   stat("file.txt", &info);
   
-  char story[info.st_size] = 0;
+  char story[info.st_size];
   read(file, info, info.st_size);
   
-  printf("STORY\n%s\n" story);
+  printf("STORY\n%s\n", story);
   
 }
 
