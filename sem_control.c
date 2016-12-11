@@ -18,11 +18,9 @@ union semun {
 
 
 void create_semaphore() {
-  int semid;
-  int key = ftok("Makefile", 50);
   int sc;
-  
-  semid = semget(key, 1, IPC_CREAT | IPC_EXCL | 0644);
+  int key = ftok("Makefile", 50);
+  int semid = semget(key, 1, IPC_CREAT | IPC_EXCL | 0644);
       
     if (semid >= 0) { 
 
@@ -33,32 +31,30 @@ void create_semaphore() {
       sc = semctl(semid, 0, SETVAL, su);
       printf("value set: %d\n", sc);
     } else {
-      printf("semaphore already created\n");
+      printf("semaphore already created: %s\n", strerror(errno));
     }
 }
     
 
 void remove_semaphore() {
-  int semid;
-  int key = ftok("Makefile", 50);
   int sc;
-
-  semid = semget(key, 1, 0);
+  int key = ftok("Makefile", 50);
+  int semid = semget(key, 1, 0);
 
   //remove sempahore
   sc = semctl(semid, 0, IPC_RMID);
   if (sc >= 0)
     printf("semaphore successfully removed\n");
   else
-    printf("failed to remove semaphore\n");
+    printf("failed to remove semaphore: %s\n", strerror(errno));
 }
 
 void create_shmem() {
-  int key = ftok("Makefile",60);
+  int key = ftok("Makefile",70);
   int shmemid = shmget(key, 1024, IPC_CREAT | IPC_EXCL | 0644);
   
-  printf("key: %d\n", key);
-  printf("shmemid : %d\n", shmemid);
+  //printf("key: %d\n", key);
+  //printf("shmemid : %d\n", shmemid);
   
   if (shmemid >= 0)
     printf("shared memory created %d\n", shmemid);
@@ -68,14 +64,15 @@ void create_shmem() {
 
 void remove_shmem() {
   int sd;
-  int key = ftok("Makefile",60);
+  int key = ftok("Makefile",70);
+  int shmemid = shmget(key, 1024, 0644);
   
-  sd = shmctl(key, IPC_RMID, 0);
+  sd = shmctl(shmemid, IPC_RMID, 0);
   
   if (sd >= 0)
     printf("shared memory successfully removed\n");
   else
-    printf("failed to remove shared memory\n");
+    printf("failed to remove shared memory: %s\n", strerror(errno));
 }
 
 void create_file(){
@@ -84,7 +81,7 @@ void create_file(){
   if (file >= 0)
     printf("file successfully created\n");
   else
-    printf("file already exists\n");
+    printf("file already exists: %s\n", strerror(errno));
     
   close(file);
 }

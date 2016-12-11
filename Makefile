@@ -5,4 +5,5 @@ all:
 clean:
 	rm sem_control
 	rm sem_write
+	rm file.txt
 
