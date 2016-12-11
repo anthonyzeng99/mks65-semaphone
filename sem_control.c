@@ -7,6 +7,7 @@
 #include <sys/shm.h>
 #include <fcntl.h>
 #include <errno.h>
+#include <sys/stat.h>
 
 
 union semun {
@@ -86,12 +87,29 @@ void create_file(){
   close(file);
 }
 
+void view_file(){
+  int file = open("file.txt", O_RDONLY, 0644);
+  
+  struct stat info;
+  stat("file.txt", &info);
+  
+  char story[info.st_size] = 0;
+  read(file, info, info.st_size);
+  
+  printf("STORY\n%s\n" story);
+  
+}
+
 int main(int argc, char *argv[]) {  
   if (strncmp(argv[1], "-c", strlen(argv[1])) == 0) {
     create_semaphore();  
     create_shmem();
     create_file();
   } 
+  
+  else if (strncmp(argv[1], "-v", strlen(argv[1])) == 0) {
+    view_file();
+  }
 
   else if (strncmp(argv[1], "-r", strlen(argv[1])) == 0) {
     remove_semaphore();
