@@ -112,6 +112,7 @@ int main(int argc, char *argv[]) {
   }
 
   else if (strncmp(argv[1], "-r", strlen(argv[1])) == 0) {
+    view_file();
     remove_semaphore();
     remove_shmem();
   }
