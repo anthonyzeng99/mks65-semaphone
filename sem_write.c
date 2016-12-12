@@ -1,13 +1,15 @@
+#include <errno.h>
+#include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/types.h>
 #include <sys/ipc.h>
 #include <sys/sem.h>
 #include <sys/shm.h>
-#include <fcntl.h>
-#include <errno.h>
 #include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
+
 
 int main() {
     int semid = semget(ftok("Makefile", 50), 1, 0644);
@@ -38,8 +40,8 @@ int main() {
     else
         printf("There was no previous writer. What would you like to write?\n");
         
-    file = open("file.txt", O_APPEND | 0644);
-    
+    file = open("file.txt", O_RDWR | O_APPEND | 0644);
+      
     //write new line
     char new_line[100];
     fgets(new_line, 100, stdin);

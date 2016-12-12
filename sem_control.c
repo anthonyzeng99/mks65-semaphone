@@ -1,21 +1,23 @@
+#include <errno.h>
+#include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/types.h>
 #include <sys/ipc.h>
 #include <sys/sem.h>
 #include <sys/shm.h>
-#include <fcntl.h>
-#include <errno.h>
 #include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
 
-
+/*
 union semun {
   int val;
   struct semid_ds *buf;
   unsigned short *array;
   struct seminfo *_buf;
 };
+*/
 
 
 void create_semaphore() {
@@ -94,7 +96,7 @@ void view_file(){
   stat("file.txt", &info);
   
   char story[info.st_size];
-  read(file, info, info.st_size);
+  read(file, story, info.st_size);
   
   printf("STORY\n%s\n", story);
   
