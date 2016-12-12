@@ -98,6 +98,8 @@ void view_file(){
   
   printf("STORY\n%s\n", story);
   
+  close(file);
+  
 }
 
 int main(int argc, char *argv[]) {  
@@ -117,4 +119,5 @@ int main(int argc, char *argv[]) {
     remove_shmem();
   }
   
+  return 0;
 }
