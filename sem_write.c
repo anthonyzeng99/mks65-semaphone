@@ -20,8 +20,10 @@ int main() {
     sb.sem_num = 0; 
     sb.sem_flg = SEM_UNDO; 
     
+    //down
     semop(semid, &sb, 1);
     
+    //read previous line
     char old_line[*shmem_ptr + 1];
     lseek(file, -1 * (*shmem_ptr), SEEK_END);
     read(file, old_line, *shmem_ptr);
@@ -38,6 +40,7 @@ int main() {
         
     file = open("file.txt", O_APPEND | 0644);
     
+    //write new line
     char new_line[100];
     fgets(new_line, 100, stdin);
     write(file, new_line, strlen(new_line));
@@ -46,6 +49,7 @@ int main() {
     close(file);
     shmdt(shmem_ptr);
     
+    //up
     sb.sem_op = 1;
     semop(semid, &sb, 1);
     
